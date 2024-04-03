@@ -148,21 +148,29 @@ class GeneratorPage extends StatelessWidget {
 }
 
 class LikedPairs extends StatelessWidget{
-  @override
+    @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text("Hola")
-            ],
+    var appState = context.watch<MyAppState>();
+
+    if (appState.liked.isEmpty) {
+      return Center(
+        child: Text('No favorites yet.'),
+      );
+    }
+
+    return ListView(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(20),
+          child: Text('You have '
+              '${appState.liked.length} favorites:'),
+        ),
+        for (var pair in appState.liked)
+          ListTile(
+            leading: Icon(Icons.favorite),
+            title: Text(pair.asLowerCase),
           ),
-        ],
-      ),
+      ],
     );
   }
 }
